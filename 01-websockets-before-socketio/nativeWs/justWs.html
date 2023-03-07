@@ -1,5 +1,21 @@
-
 <script>
     const ws = new WebSocket('ws://localhost:8000');
     console.log(ws)
+
+    //on connection
+    ws.onopen = (event) => {
+        console.log(event);
+        ws.send("I'm so excited to connect to the server");
+
+    };
+
+    // Listen for messages
+    ws.onmessage = (event) => {
+        console.log('Message from server ', event.data);
+    };
+    //old school
+    // ws.addEventListener('message', (event) => {
+    //     console.log('Message from server ', event.data);
+    // });
+
 </script>
