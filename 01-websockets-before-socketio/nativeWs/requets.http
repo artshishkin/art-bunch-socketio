@@ -1,0 +1,2 @@
+### Test server connection
+GET http://localhost:8000

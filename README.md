@@ -27,5 +27,9 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
     - [ws: a Node.js WebSocket library](https://www.npmjs.com/package/ws)
     - `npm init -y`
     - `npm install ws`
+3. Run server
+    - `nodemon justWsServer.js`
+    - check
+    - curl [http://localhost:8000](http://localhost:8000)
 
 [licence]: https://img.shields.io/github/license/artshishkin/art-bunch-socketio.svg
