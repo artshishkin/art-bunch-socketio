@@ -19,4 +19,13 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
     - **or**
     - `npx nodemon howidonode.js` (if nodemone installed locally)
 
+#### 9. A short overview of native websockets (finally some code!!)
+
+1. Client
+    - [The WebSocket API (WebSockets)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+2. Server
+    - [ws: a Node.js WebSocket library](https://www.npmjs.com/package/ws)
+    - `npm init -y`
+    - `npm install ws`
+
 [licence]: https://img.shields.io/github/license/artshishkin/art-bunch-socketio.svg
