@@ -54,4 +54,9 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
 - `npm install express --save`
 - visit [http://localhost:8000/chat.html](http://localhost:8000/chat.html)
 
+#### 17. Docs - The Client
+
+- [How to check the latency of the Socket.IO connection](https://socket.io/how-to/check-the-latency-of-the-connection)
+
+
 [licence]: https://img.shields.io/github/license/artshishkin/art-bunch-socketio.svg

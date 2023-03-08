@@ -19,5 +19,10 @@ io.on('connection', (socket) => {
     socket.on('messageToServer', (dataFromClient) => {
         console.log(`${socket.id} sent me a message ${JSON.stringify(dataFromClient)}`)
     })
+
+    socket.on("pingFromClient", (callback) => {
+        callback();
+    });
+
 })
 

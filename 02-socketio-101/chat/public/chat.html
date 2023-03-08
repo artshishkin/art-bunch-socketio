@@ -7,6 +7,15 @@
         socket.emit('messageToServer', {data: 'This is from the client'})
     });
 
+    setInterval(() => {
+        const start = Date.now();
+
+        socket.emit("pingFromClient", () => {
+            const duration = Date.now() - start;
+            console.log(duration);
+        });
+    }, 1000);
+
     //Works for version 4
     socket.io.on('ping', () => {
         console.log("Ping was received from the server");
@@ -27,10 +36,10 @@
         console.log(`Pong was send to the server with latency ${latency}`);
     })
 
-    //Build-in event on any packet (ping, message, open, etc.)
-    socket.io.engine.on('packet', (packet) => {
-        console.log(packet);
-    });
+    // //Build-in event on any packet (ping, message, open, etc.)
+    // socket.io.engine.on('packet', (packet) => {
+    //     console.log(packet);
+    // });
 
 </script>
 
