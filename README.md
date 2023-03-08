@@ -49,6 +49,9 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
     - Events &rarr; Add `welcome` (custom event)
 - Event name: `message` &rarr; Send
 
+#### 14. Small Chat app - in socket.io!
 
+- `npm install express --save`
+- visit [http://localhost:8000/chat.html](http://localhost:8000/chat.html)
 
 [licence]: https://img.shields.io/github/license/artshishkin/art-bunch-socketio.svg
