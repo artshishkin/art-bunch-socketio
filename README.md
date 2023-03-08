@@ -32,4 +32,14 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
     - check
     - curl [http://localhost:8000](http://localhost:8000)
 
+---
+### Section 3: Socket.io 101
+
+#### 12. The basics & socket.io vs. ws
+
+- `npm init`
+- `npm instal socket.io --save`
+
+
+
 [licence]: https://img.shields.io/github/license/artshishkin/art-bunch-socketio.svg
