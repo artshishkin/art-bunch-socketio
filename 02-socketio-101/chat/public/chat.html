@@ -6,5 +6,31 @@
         console.log(dataFromServer);
         socket.emit('messageToServer', {data: 'This is from the client'})
     });
+
+    //Works for version 4
+    socket.io.on('ping', () => {
+        console.log("Ping was received from the server");
+    })
+
+    //Does NOT work for version 4
+    // socket.on('ping', () => {
+    //     console.log("Ping was received from the server");
+    // })
+
+    //Does NOT work for version 4
+    // socket.on('pong', (latency) => {
+    //     console.log(`Pong was send to the server with latency ${latency}`);
+    // })
+
+    //Does NOT work for version 4
+    socket.io.on('pong', (latency) => {
+        console.log(`Pong was send to the server with latency ${latency}`);
+    })
+
+    //Build-in event on any packet (ping, message, open, etc.)
+    socket.io.engine.on('packet', (packet) => {
+        console.log(packet);
+    });
+
 </script>
 
