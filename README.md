@@ -33,12 +33,20 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
     - curl [http://localhost:8000](http://localhost:8000)
 
 ---
+
 ### Section 3: Socket.io 101
 
 #### 12. The basics & socket.io vs. ws
 
 - `npm init`
 - `npm instal socket.io --save`
+- test with Postman
+- New &rarr; WebSocket Request
+- `ws://localhost:8000`
+- Message: `hi`
+- Add Event Listener:
+    - Events &rarr; Add `message`
+- Event name: `message` &rarr; Send
 
 
 
