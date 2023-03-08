@@ -8,15 +8,23 @@ const server = http.createServer((req, res) => {
     res.end('I am connected!');
 });
 
-const io = new socketio.Server(server);
+// const io = new socketio.Server(server);
+
+// const io = socketio(server, {
+const io = new socketio.Server(server, {
+    cors: {
+        // origin: "http://localhost:8000"
+        origin: "*"
+    }
+});
 
 io.on('connection', (socket, req) => {
     console.log("on Connection")
     // socket.send('Welcome to the socket.io server!!!');
-    socket.emit('Welcome to the socket.io server!!!');
+    socket.emit('welcome', 'Welcome to the socket.io server!!!');
 
     socket.on('message', (data) => {
-        console.log(data.toString())
+        console.log(data)
     })
 
 })

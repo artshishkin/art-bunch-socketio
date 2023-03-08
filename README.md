@@ -46,6 +46,7 @@ Socket.IO (with websockets) - the details. (socket io v2) - Tutorial from Robert
 - Message: `hi`
 - Add Event Listener:
     - Events &rarr; Add `message`
+    - Events &rarr; Add `welcome` (custom event)
 - Event name: `message` &rarr; Send
 
 

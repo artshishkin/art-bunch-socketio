@@ -1,0 +1,20 @@
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+        crossorigin="anonymous"></script>
+<script>
+    const socket = io('http://localhost:8000');
+
+    // const ws = new WebSocket('ws://localhost:8000');
+    console.log(socket)
+
+    //on connection
+    socket.on('connect', (data) => {
+        console.log(data);
+
+        socket.on('welcome', (welcomeMsg) => {
+            console.log(welcomeMsg);
+        });
+        socket.emit('message', {data: "I'm so excited to connect to the server"})
+    });
+
+</script>
