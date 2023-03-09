@@ -20,6 +20,12 @@ io.on('connection', (socket) => {
         console.log(`${socket.id} sent me a message ${JSON.stringify(dataFromClient)}`)
     })
 
+    socket.on('newMessageToServer', (msg) => {
+        console.log(`${socket.id} sent me a message ${JSON.stringify(msg)}`)
+        io.emit('messageToClients', {text: msg.text}); //send to everyone
+        // socket.broadcast.emit('messageToClients', msg); //send to everyone except socket
+    })
+
     socket.on("pingFromClient", (callback) => {
         callback();
     });
