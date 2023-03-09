@@ -12,7 +12,7 @@ const io = socketio(expressServer);
 
 io.on('connection', (socket) => {
 
-    console.log(socket.id)
+    console.log(`${socket.id} connected to the ${socket.nsp.name} (default) namespace`)
 
     socket.emit("messageFromServer", `Hello from server to ${socket.id}`)
 
@@ -22,7 +22,11 @@ io.on('connection', (socket) => {
 
     socket.on('newMessageToServer', (msg) => {
         console.log(`${socket.id} sent me a message ${JSON.stringify(msg)}`)
-        io.emit('messageToClients', {text: msg.text}); //send to everyone
+
+        //next lines are equivalent
+        io.of('/').emit('messageToClients', {text: msg.text});
+        // io.emit('messageToClients', {text: msg.text});
+
         // socket.broadcast.emit('messageToClients', msg); //send to everyone except socket
     })
 
@@ -30,5 +34,10 @@ io.on('connection', (socket) => {
         callback();
     });
 
+})
+
+io.of('/admin').on('connect', (socket) => {
+    console.log(`${socket.id} connected to the ${socket.nsp.name} namespace`)
+    socket.emit('welcome', 'Welcome to the admin channel!');
 })
 
