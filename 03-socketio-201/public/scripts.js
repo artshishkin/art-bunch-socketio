@@ -11,6 +11,10 @@ socket.on('messageFromServer', (dataFromServer) => {
     socket.emit('messageToServer', {data: 'This is from the client'})
 });
 
+socket.on('joined', (msg) => {
+    console.log(msg);
+});
+
 $('#message-form').on('submit', (event) => {
     event.preventDefault();
     const newMessage = $('#user-message').val();

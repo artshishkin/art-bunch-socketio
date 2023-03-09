@@ -16,6 +16,10 @@ io.on('connection', (socket) => {
     socket.on('messageToServer', (dataFromClient) => {
         console.log(`${socket.id} sent me a message ${JSON.stringify(dataFromClient)}`)
     })
+    socket.join('level1');
+    // socket.to('level1').emit('joined', `${socket.id} has joined the level 1 room`); //sends to everyone except itself
+    io.of('/').to('level1').emit('joined', `${socket.id} has joined the level 1 room`); //sends to everyone
+
 })
 
 io.of('/admin').on('connect', (socket) => {
