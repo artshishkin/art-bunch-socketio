@@ -1,6 +1,7 @@
 const socket = io('http://localhost:8000'); //the / namespace/endpoint
-const socket2 = io('http://localhost:8000/admin'); //the /admin namespace
-// const socket2 = io('http://localhost:8000/marketing'); //the /marketing namespace
+const socket2 = io('http://localhost:8000/wiki'); //the /wiki namespace
+const socket3 = io('http://localhost:8000/mozilla'); //the /mozilla namespace
+const socket4 = io('http://localhost:8000/linux'); //the /linux namespace
 
 socket2.on('welcome', (msg) => {
     console.log(msg)

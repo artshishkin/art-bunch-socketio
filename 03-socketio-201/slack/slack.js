@@ -3,7 +3,7 @@ const socketio = require('socket.io')
 const namespaces = require('./data/namespaces')
 
 // console.log(namespaces)
-console.log(namespaces[0])
+// console.log(namespaces[0])
 
 const app = express();
 
@@ -26,9 +26,10 @@ io.on('connection', (socket) => {
 
 })
 
-io.of('/admin').on('connect', (socket) => {
-    console.log(`${socket.id} connected to the ${socket.nsp.name} namespace`)
-    socket.emit('welcome', 'Welcome to the admin channel!');
-    // io.of('/admin').emit('welcome', 'Welcome to the admin channel!');
+//loop through all namespaces and listen for a connection
+namespaces.forEach(namespace => {
+    io.of(namespace.endpoint).on('connect', (socket) => {
+        console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${socket.id}`)
+    })
 })
 
