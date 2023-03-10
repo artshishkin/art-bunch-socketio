@@ -11,6 +11,12 @@ function joinNs(nsEndpoint) {
         roomListUl.children().click((e) => {
             console.log('Someone clicked on ' + e.target.innerText)
         });
+
+        //add room automatically... first time here
+        const topRoom = roomListUl.find("li:nth-child(1)");
+        const topRoomName = topRoom.text();
+        joinRoom(nsSocket, topRoomName);
+
     });
 
     nsSocket.on('messageToClients', (msg) => {

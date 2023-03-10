@@ -33,6 +33,10 @@ namespaces.forEach(namespace => {
     io.of(namespace.endpoint).on('connect', (nsSocket) => {
         console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${nsSocket.id}`)
         nsSocket.emit('nsRoomLoad', namespace.rooms)
+        nsSocket.on('joinRoom', (roomName) => {
+            nsSocket.join(roomName);
+            nsSocket.emit('roomJoined', `You joined the room ${roomName}`)
+        })
     })
 })
 
