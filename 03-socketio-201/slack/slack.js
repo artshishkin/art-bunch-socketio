@@ -36,9 +36,10 @@ namespaces.forEach(namespace => {
         nsSocket.on('joinRoom', (roomName, numberOfUsersCallback) => {
             //deal with history... once we have it
             nsSocket.join(roomName);
-            const clientSize = 666;
-
-            numberOfUsersCallback(clientSize, `You joined the room ${roomName}`);
+            io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
+                console.log(clients);
+                numberOfUsersCallback(clients.length, `You joined the room ${roomName}`);
+            });
         })
     })
 })
