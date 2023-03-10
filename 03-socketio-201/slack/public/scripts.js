@@ -1,4 +1,5 @@
-const socket = io('http://localhost:8000'); //the / namespace/endpoint
+const BASE_URL = 'http://localhost:8000';
+const socket = io(BASE_URL); //the / namespace/endpoint
 
 socket.on('nsList', (nsData) => {
 
@@ -16,7 +17,23 @@ socket.on('nsList', (nsData) => {
     //             console.dir(el.getAttribute('ns'))
     //         });
     //     });
-    $('.namespace').click((event) => console.dir($(event.target).parent().attr('ns')));
+    $('.namespace').click((event) => {
+        const nsEndpoint = $(event.target).parent().attr('ns');
+        // console.dir(nsEndpoint);
+        const nsSocket = io(BASE_URL + nsEndpoint);
+        nsSocket.on('nsRoomLoad', (nsRooms) => {
+            // console.log(nsRooms);
+            const roomListUl = $('.room-list');
+            roomListUl.empty();
+            nsRooms.forEach(nsRoom => {
+                const glyph = nsRoom.privateRoom ? 'lock' : 'globe';
+                roomListUl.append(`<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${nsRoom.roomTitle}</li>`);
+            });
+            roomListUl.children().click((e) => {
+                console.log('Someone clicked on ' + e.target.innerText)
+            });
+        });
+    });
 
 });
 

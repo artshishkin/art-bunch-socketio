@@ -30,8 +30,9 @@ io.on('connection', (socket) => {
 
 //loop through all namespaces and listen for a connection
 namespaces.forEach(namespace => {
-    io.of(namespace.endpoint).on('connect', (socket) => {
-        console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${socket.id}`)
+    io.of(namespace.endpoint).on('connect', (nsSocket) => {
+        console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${nsSocket.id}`)
+        nsSocket.emit('nsRoomLoad', namespace.rooms)
     })
 })
 
