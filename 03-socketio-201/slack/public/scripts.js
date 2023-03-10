@@ -3,12 +3,20 @@ const socket = io('http://localhost:8000'); //the / namespace/endpoint
 socket.on('nsList', (nsData) => {
 
     const namespacesDiv = $('.namespaces');
-    namespacesDiv.innerHTML = '';
+    namespacesDiv.empty();
     nsData.forEach(ns => namespacesDiv.append(`
-        <div className="namespace" ns="${ns.endpoint}">
+        <div class="namespace" ns="${ns.endpoint}">
             <img src="${ns.img}">
         </div>`
     ));
+    //add a click listener for each NS
+    // Array.from($('.namespace'))
+    //     .forEach(el => {
+    //         el.addEventListener('click', (event) => {
+    //             console.dir(el.getAttribute('ns'))
+    //         });
+    //     });
+    $('.namespace').click((event) => console.dir($(event.target).parent().attr('ns')));
 
 });
 
