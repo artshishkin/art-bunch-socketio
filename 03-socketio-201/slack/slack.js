@@ -16,13 +16,15 @@ const io = socketio(expressServer);
 
 io.on('connection', (socket) => {
 
-    socket.emit("messageFromServer", `Hello from server to ${socket.id}`)
-    socket.on('messageToServer', (dataFromClient) => {
-        console.log(`${socket.id} sent me a message ${JSON.stringify(dataFromClient)}`)
-    })
-    socket.join('level1');
-    // socket.to('level1').emit('joined', `${socket.id} has joined the level 1 room`); //sends to everyone except itself
-    io.of('/').to('level1').emit('joined', `${socket.id} has joined the level 1 room`); //sends to everyone
+    //build an array to send back with the img and endpoint for each namespace
+    const nsData = namespaces.map(ns => {
+        return {
+            img: ns.img,
+            endpoint: ns.endpoint
+        }
+    });
+    //send the ns data back to the client
+    socket.emit('nsList', namespaces);
 
 })
 
