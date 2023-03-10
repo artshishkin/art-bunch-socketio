@@ -1,5 +1,9 @@
 const express = require('express');
 const socketio = require('socket.io')
+const namespaces = require('./data/namespaces')
+
+// console.log(namespaces)
+console.log(namespaces[0])
 
 const app = express();
 
