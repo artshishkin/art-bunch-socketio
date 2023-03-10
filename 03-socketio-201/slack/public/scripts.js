@@ -1,5 +1,6 @@
 const BASE_URL = 'http://localhost:8000';
 const socket = io(BASE_URL); //the / namespace/endpoint
+let nsSocket = "";
 
 socket.on('nsList', (nsData) => {
 

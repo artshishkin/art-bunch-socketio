@@ -1,5 +1,5 @@
 function joinNs(nsEndpoint) {
-    const nsSocket = io(BASE_URL + nsEndpoint);
+    nsSocket = io(BASE_URL + nsEndpoint);
     nsSocket.on('nsRoomLoad', (nsRooms) => {
         // console.log(nsRooms);
         const roomListUl = $('.room-list');
@@ -15,7 +15,7 @@ function joinNs(nsEndpoint) {
         //add room automatically... first time here
         const topRoom = roomListUl.find("li:nth-child(1)");
         const topRoomName = topRoom.text();
-        joinRoom(nsSocket, topRoomName);
+        joinRoom(topRoomName);
 
     });
 
