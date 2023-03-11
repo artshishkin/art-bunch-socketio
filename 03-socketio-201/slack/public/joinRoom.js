@@ -6,9 +6,26 @@ function joinRoom(roomName) {
         const messagesUl = $('#messages');
         messagesUl.empty();
         roomHistory.forEach(fullMsg => messagesUl.append(buildMessageHTML(fullMsg)));
+        messagesUl.scrollTop(messagesUl.prop('scrollHeight'));
         //we want to update the room member total now we have joined
         $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
     });
+
+    nsSocket.on('messageToClients', (msg) => {
+        const messagesUl = $('#messages');
+        messagesUl.append(buildMessageHTML(msg));
+        // animate the scrollTop property to the height of the messagesUl
+        messagesUl.animate({scrollTop: messagesUl.prop('scrollHeight')}, 1000);
+    });
+
+    $('.message-form').on('submit', (event) => {
+        event.preventDefault();
+        const userMsgField = $('#user-message');
+        const newMessage = userMsgField.val();
+        userMsgField.val('');
+        // console.log(newMessage)
+        nsSocket.emit('messageToServer', {text: newMessage});
+    })
 
 }
 

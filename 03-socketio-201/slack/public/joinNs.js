@@ -20,17 +20,6 @@ function joinNs(nsEndpoint) {
 
     });
 
-    nsSocket.on('messageToClients', (msg) => {
-        $('#messages').append(buildMessageHTML(msg));
-    });
 
-    $('.message-form').on('submit', (event) => {
-        event.preventDefault();
-        const userMsgField = $('#user-message');
-        const newMessage = userMsgField.val();
-        userMsgField.val('');
-        // console.log(newMessage)
-        nsSocket.emit('messageToServer', {text: newMessage});
-    })
 
 }
