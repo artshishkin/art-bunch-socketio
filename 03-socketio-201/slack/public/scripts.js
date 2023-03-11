@@ -16,6 +16,8 @@ socket.on('nsList', (nsData) => {
         const nsEndpoint = $(event.target).parent().attr('ns');
         joinNs(nsEndpoint);
     });
-
+    //By default, join top namespace
+    const topNamespaceEndpoint = nsData[0].endpoint;
+    joinNs(topNamespaceEndpoint);
 });
 
