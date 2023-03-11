@@ -4,6 +4,9 @@ function joinRoom(roomName) {
         $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
     }
 
+    //update current room display name
+    $('.curr-room-text').text(roomName);
+
     //send this room name to the server
     nsSocket.emit('joinRoom', roomName, (newNumberOfMembers, msg, roomHistory) => {
         console.log(msg);
