@@ -9,7 +9,8 @@ function joinNs(nsEndpoint) {
             roomListUl.append(`<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${nsRoom.roomTitle}</li>`);
         });
         roomListUl.children().click((e) => {
-            console.log('Someone clicked on ' + e.target.innerText)
+            const roomName = $(e.target).text();
+            joinRoom(roomName);
         });
 
         //add room automatically... first time here
