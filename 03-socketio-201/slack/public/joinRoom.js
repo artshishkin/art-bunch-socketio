@@ -1,4 +1,9 @@
 function joinRoom(roomName) {
+
+    function displayClientsCount(newNumberOfMembers) {
+        $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
+    }
+
     //send this room name to the server
     nsSocket.emit('joinRoom', roomName, (newNumberOfMembers, msg, roomHistory) => {
         console.log(msg);
@@ -8,7 +13,7 @@ function joinRoom(roomName) {
         roomHistory.forEach(fullMsg => messagesUl.append(buildMessageHTML(fullMsg)));
         messagesUl.scrollTop(messagesUl.prop('scrollHeight'));
         //we want to update the room member total now we have joined
-        $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
+        displayClientsCount(newNumberOfMembers);
     });
 
     nsSocket.on('messageToClients', (msg) => {
@@ -16,6 +21,10 @@ function joinRoom(roomName) {
         messagesUl.append(buildMessageHTML(msg));
         // animate the scrollTop property to the height of the messagesUl
         messagesUl.animate({scrollTop: messagesUl.prop('scrollHeight')}, 1000);
+    });
+
+    nsSocket.on('updateMembersCount', (clientsCount) => {
+        displayClientsCount(clientsCount);
     });
 
     $('.message-form').on('submit', (event) => {

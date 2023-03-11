@@ -42,6 +42,8 @@ namespaces.forEach(namespace => {
             io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
                 console.log(clients.map(soc => soc.id));
                 joiningRoomCallback(clients.length, `You joined the room ${roomName}`, nsRoom.history);
+                //inform other clients about new clients count
+                io.of(namespace.endpoint).in(roomName).emit('updateMembersCount', clients.length);
             });
 
             nsSocket.on('messageToServer', (msg) => {
