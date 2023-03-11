@@ -37,9 +37,18 @@ namespaces.forEach(namespace => {
             //deal with history... once we have it
             nsSocket.join(roomName);
             io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
-                console.log(clients);
+                console.log(clients.map(soc => soc.id));
                 numberOfUsersCallback(clients.length, `You joined the room ${roomName}`);
             });
+            nsSocket.on('messageToServer', (msg) => {
+                const fullMsg = {
+                    text: msg.text,
+                    time: Date.now(),
+                    username: 'Art',
+                    avatar: `https://robohash.org/${nsSocket.id}?set=set3&size=30x30`
+                };
+                io.of(namespace.endpoint).in(roomName).emit('messageToClients', fullMsg);
+            })
         })
     })
 })
