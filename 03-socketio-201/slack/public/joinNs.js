@@ -34,20 +34,3 @@ function joinNs(nsEndpoint) {
     })
 
 }
-
-function buildMessageHTML(fullMessage) {
-    // const options = {hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric'};
-    // const msgTime = new Date(fullMessage.time).toLocaleTimeString('en-US', options); // output: 10:30:45 AM
-    const msgTime = new Date(fullMessage.time).toLocaleString();
-    return `
-        <li>
-            <div class="user-image">
-                <img src="${fullMessage.avatar}" />
-            </div>
-            <div class="user-message">
-                <div class="user-name-time">${fullMessage.username} <span>${msgTime}</span></div>
-                <div class="message-text">${fullMessage.text}</div>
-            </div>
-        </li>
-    `;
-}

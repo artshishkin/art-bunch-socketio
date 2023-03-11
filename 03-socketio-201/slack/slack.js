@@ -33,13 +33,17 @@ namespaces.forEach(namespace => {
     io.of(namespace.endpoint).on('connect', (nsSocket) => {
         console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${nsSocket.id}`)
         nsSocket.emit('nsRoomLoad', namespace.rooms)
-        nsSocket.on('joinRoom', (roomName, numberOfUsersCallback) => {
+        nsSocket.on('joinRoom', (roomName, joiningRoomCallback) => {
             //deal with history... once we have it
             nsSocket.join(roomName);
+
+            const nsRoom = namespace.rooms.find(r => r.roomTitle === roomName);
+
             io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
                 console.log(clients.map(soc => soc.id));
-                numberOfUsersCallback(clients.length, `You joined the room ${roomName}`);
+                joiningRoomCallback(clients.length, `You joined the room ${roomName}`, nsRoom.history);
             });
+
             nsSocket.on('messageToServer', (msg) => {
                 const fullMsg = {
                     text: msg.text,
@@ -47,6 +51,7 @@ namespaces.forEach(namespace => {
                     username: 'Art',
                     avatar: `https://robohash.org/${nsSocket.id}?set=set3&size=30x30`
                 };
+                nsRoom.addMessage(fullMsg);
                 io.of(namespace.endpoint).in(roomName).emit('messageToClients', fullMsg);
             })
         })
