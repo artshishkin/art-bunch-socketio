@@ -26,7 +26,9 @@ function joinNs(nsEndpoint) {
 
     $('.message-form').on('submit', (event) => {
         event.preventDefault();
-        const newMessage = $('#user-message').val();
+        const userMsgField = $('#user-message');
+        const newMessage = userMsgField.val();
+        userMsgField.val('');
         // console.log(newMessage)
         nsSocket.emit('messageToServer', {text: newMessage});
     })
