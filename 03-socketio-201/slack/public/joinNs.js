@@ -1,4 +1,10 @@
 function joinNs(nsEndpoint) {
+
+    if(nsSocket){
+        // check to see if nsSocket is actually a socket
+        nsSocket.close();
+    }
+
     nsSocket = io(BASE_URL + nsEndpoint);
     nsSocket.on('nsRoomLoad', (nsRooms) => {
         // console.log(nsRooms);
