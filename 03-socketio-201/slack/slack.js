@@ -73,13 +73,23 @@ namespaces.forEach(namespace => {
                 io.of(namespace.endpoint).in(roomToJoin).emit('messageToClients', fullMsg);
             })
         })
+
+        //leaving all the rooms on disconnect
+        nsSocket.on('disconnect', (reason) => {
+            namespace.rooms.forEach(room => {
+                const roomToLeave = room.roomTitle;
+                nsSocket.leave(roomToLeave);
+                updateRoomMembers(namespace, roomToLeave);
+            })
+        });
+
     })
 })
 
 function updateRoomMembers(namespace, roomName) {
     io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
         //inform other clients about new clients count
-        console.log(`Clients count in room '${roomName}' of namespace '${namespace.endpoint}' is ${clients.length}`)
+        // console.log(`Clients count in room '${roomName}' of namespace '${namespace.endpoint}' is ${clients.length}`)
 
         io.of(namespace.endpoint).in(roomName).emit('updateMembersCount', clients.length);
     });
