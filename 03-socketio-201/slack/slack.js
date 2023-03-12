@@ -41,17 +41,24 @@ namespaces.forEach(namespace => {
                 // console.log('leaving room ' + rooms[1])
                 nsSocket.leave(rooms[1]); //[0] his own room, [1] last room client was joined to
             }
+            // console.log('----------------')
+            // console.log('Rooms of client: ' + nsSocket.id, rooms)
+            // console.log('----------------')
+
             nsSocket.join(roomName);
 
             const nsRoom = namespace.rooms.find(r => r.roomTitle === roomName);
 
             io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
-                console.log(clients.map(soc => soc.id));
+                // console.log('Joined clients:', clients.map(soc => soc.id));
                 joiningRoomCallback(clients.length, `You joined the room ${roomName}`, nsRoom.history);
                 //inform other clients about new clients count
                 io.of(namespace.endpoint).in(roomName).emit('updateMembersCount', clients.length);
             });
 
+            //switch off previous listener of `messageToServer` event
+            if (nsSocket.listeners('messageToServer'))
+                nsSocket.removeAllListeners('messageToServer');
             nsSocket.on('messageToServer', (msg) => {
                 const fullMsg = {
                     text: msg.text,
@@ -59,6 +66,7 @@ namespaces.forEach(namespace => {
                     username: 'Art',
                     avatar: `https://robohash.org/${nsSocket.id}?set=set3&size=30x30`
                 };
+                // console.log(`received message ${msg.text} in room '${roomName}' of '${namespace.endpoint}' namespace`)
                 nsRoom.addMessage(fullMsg);
                 io.of(namespace.endpoint).in(roomName).emit('messageToClients', fullMsg);
             })

@@ -1,9 +1,5 @@
 function joinRoom(roomName) {
 
-    function displayClientsCount(newNumberOfMembers) {
-        $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
-    }
-
     //update current room display name
     $('.curr-room-text').text(roomName);
 
@@ -19,17 +15,6 @@ function joinRoom(roomName) {
         displayClientsCount(newNumberOfMembers);
     });
 
-    nsSocket.on('messageToClients', (msg) => {
-        const messagesUl = $('#messages');
-        messagesUl.append(buildMessageHTML(msg));
-        // animate the scrollTop property to the height of the messagesUl
-        messagesUl.animate({scrollTop: messagesUl.prop('scrollHeight')}, 1000);
-    });
-
-    nsSocket.on('updateMembersCount', (clientsCount) => {
-        displayClientsCount(clientsCount);
-    });
-
     const messageForm = $('.message-form');
     //remove the event listener before it's added again
     // Remove the submit event handler from the form
@@ -43,7 +28,7 @@ function joinRoom(roomName) {
         // console.log(`sending new message ${newMessage} to nsSocket ${nsSocket.id}`)
         nsSocket.emit('messageToServer', {text: newMessage});
 
-        // console.log(nsSocket.listeners("messageToClients"));
+        console.log(nsSocket.listeners("messageToClients"));
     })
 
 }

@@ -26,6 +26,20 @@ function joinNs(nsEndpoint) {
 
     });
 
+    nsSocket.on('messageToClients', (msg) => {
+        const messagesUl = $('#messages');
+        messagesUl.append(buildMessageHTML(msg));
+        // animate the scrollTop property to the height of the messagesUl
+        messagesUl.animate({scrollTop: messagesUl.prop('scrollHeight')}, 1000);
+    });
+
+    nsSocket.on('updateMembersCount', (clientsCount) => {
+        displayClientsCount(clientsCount);
+    });
 
 
+}
+
+function displayClientsCount(newNumberOfMembers) {
+    $('.curr-room-num-users').html(`${newNumberOfMembers}<span class="glyphicon glyphicon-user"></span>`);
 }
