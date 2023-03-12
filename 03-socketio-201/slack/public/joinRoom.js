@@ -30,13 +30,20 @@ function joinRoom(roomName) {
         displayClientsCount(clientsCount);
     });
 
-    $('.message-form').on('submit', (event) => {
+    const messageForm = $('.message-form');
+    //remove the event listener before it's added again
+    // Remove the submit event handler from the form
+    messageForm.off('submit');
+
+    messageForm.on('submit', (event) => {
         event.preventDefault();
         const userMsgField = $('#user-message');
         const newMessage = userMsgField.val();
         userMsgField.val('');
-        // console.log(newMessage)
+        // console.log(`sending new message ${newMessage} to nsSocket ${nsSocket.id}`)
         nsSocket.emit('messageToServer', {text: newMessage});
+
+        // console.log(nsSocket.listeners("messageToClients"));
     })
 
 }
