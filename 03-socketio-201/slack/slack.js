@@ -33,27 +33,29 @@ namespaces.forEach(namespace => {
     io.of(namespace.endpoint).on('connect', (nsSocket) => {
         console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${nsSocket.id}`)
         nsSocket.emit('nsRoomLoad', namespace.rooms)
-        nsSocket.on('joinRoom', (roomName, joiningRoomCallback) => {
+        nsSocket.on('joinRoom', (roomToJoin, joiningRoomCallback) => {
             //deal with history... once we have it
             const rooms = Array.from(nsSocket.rooms);
-            if (rooms[1]) {
+            const roomToLeave = rooms[1];
+            if (roomToLeave) {
                 //leave previous room
                 // console.log('leaving room ' + rooms[1])
-                nsSocket.leave(rooms[1]); //[0] his own room, [1] last room client was joined to
+                nsSocket.leave(roomToLeave); //[0] his own room, [1] last room client was joined to
+                updateRoomMembers(namespace, roomToLeave)
             }
             // console.log('----------------')
             // console.log('Rooms of client: ' + nsSocket.id, rooms)
             // console.log('----------------')
 
-            nsSocket.join(roomName);
+            nsSocket.join(roomToJoin);
 
-            const nsRoom = namespace.rooms.find(r => r.roomTitle === roomName);
+            const nsRoom = namespace.rooms.find(r => r.roomTitle === roomToJoin);
 
-            io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
+            updateRoomMembers(namespace, roomToJoin);
+
+            io.of(namespace.endpoint).in(roomToJoin).fetchSockets().then((clients) => {
                 // console.log('Joined clients:', clients.map(soc => soc.id));
-                joiningRoomCallback(clients.length, `You joined the room ${roomName}`, nsRoom.history);
-                //inform other clients about new clients count
-                io.of(namespace.endpoint).in(roomName).emit('updateMembersCount', clients.length);
+                joiningRoomCallback(clients.length, `You joined the room ${roomToJoin}`, nsRoom.history);
             });
 
             //switch off previous listener of `messageToServer` event
@@ -66,11 +68,19 @@ namespaces.forEach(namespace => {
                     username: 'Art',
                     avatar: `https://robohash.org/${nsSocket.id}?set=set3&size=30x30`
                 };
-                // console.log(`received message ${msg.text} in room '${roomName}' of '${namespace.endpoint}' namespace`)
+                // console.log(`received message ${msg.text} in room '${roomToJoin}' of '${namespace.endpoint}' namespace`)
                 nsRoom.addMessage(fullMsg);
-                io.of(namespace.endpoint).in(roomName).emit('messageToClients', fullMsg);
+                io.of(namespace.endpoint).in(roomToJoin).emit('messageToClients', fullMsg);
             })
         })
     })
 })
 
+function updateRoomMembers(namespace, roomName) {
+    io.of(namespace.endpoint).in(roomName).fetchSockets().then((clients) => {
+        //inform other clients about new clients count
+        console.log(`Clients count in room '${roomName}' of namespace '${namespace.endpoint}' is ${clients.length}`)
+
+        io.of(namespace.endpoint).in(roomName).emit('updateMembersCount', clients.length);
+    });
+}
