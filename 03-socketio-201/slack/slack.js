@@ -35,6 +35,12 @@ namespaces.forEach(namespace => {
         nsSocket.emit('nsRoomLoad', namespace.rooms)
         nsSocket.on('joinRoom', (roomName, joiningRoomCallback) => {
             //deal with history... once we have it
+            const rooms = Array.from(nsSocket.rooms);
+            if (rooms[1]) {
+                //leave previous room
+                // console.log('leaving room ' + rooms[1])
+                nsSocket.leave(rooms[1]); //[0] his own room, [1] last room client was joined to
+            }
             nsSocket.join(roomName);
 
             const nsRoom = namespace.rooms.find(r => r.roomTitle === roomName);
