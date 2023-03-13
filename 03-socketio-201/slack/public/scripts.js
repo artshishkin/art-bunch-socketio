@@ -1,5 +1,12 @@
 const BASE_URL = 'http://localhost:8000';
-const socket = io(BASE_URL); //the / namespace/endpoint
+// const socket = io(BASE_URL); //the / namespace/endpoint
+const username = prompt('What is your username?');
+const socket = io(BASE_URL, {
+    query: {
+        username
+    }
+}); //the / namespace/endpoint with query parameters
+
 let nsSocket = "";
 
 socket.on('nsList', (nsData) => {

@@ -32,6 +32,9 @@ io.on('connection', (socket) => {
 namespaces.forEach(namespace => {
     io.of(namespace.endpoint).on('connect', (nsSocket) => {
         console.log(`Server received a connection to namespace ${namespace.endpoint} from socket ${nsSocket.id}`)
+
+        const username = nsSocket.handshake.query.username;
+
         nsSocket.emit('nsRoomLoad', namespace.rooms)
         nsSocket.on('joinRoom', (roomToJoin, joiningRoomCallback) => {
             //deal with history... once we have it
@@ -65,8 +68,8 @@ namespaces.forEach(namespace => {
                 const fullMsg = {
                     text: msg.text,
                     time: Date.now(),
-                    username: 'Art',
-                    avatar: `https://robohash.org/${nsSocket.id}?set=set3&size=30x30`
+                    username,
+                    avatar: `https://robohash.org/${username}?set=set1&size=30x30`
                 };
                 // console.log(`received message ${msg.text} in room '${roomToJoin}' of '${namespace.endpoint}' namespace`)
                 nsRoom.addMessage(fullMsg);
