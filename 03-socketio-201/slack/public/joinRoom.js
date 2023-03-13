@@ -31,6 +31,23 @@ function joinRoom(roomName) {
         console.log(nsSocket.listeners("messageToClients"));
     })
 
+    const searchBox = $('#search-box');
+    searchBox.off('input');
+    searchBox.on('input', (e) => {
+        const searchText = $(e.target).val();
+        // console.log(searchText)
+
+        const highlightClass = "bg-info";
+
+        $('.message-text')
+            .each(function () {
+                const text = $(this).text();
+                const regex = new RegExp(searchText, 'gi');
+                const highlightedText = text.replace(regex, '<span class="' + highlightClass + '">$&</span>');
+                $(this).html(highlightedText);
+            });
+    });
+
 }
 
 function buildMessageHTML(fullMessage) {
