@@ -15,10 +15,11 @@ let mousePosition = {
 
 function draw() {
 
-    //clear the screen out so the old stuff is gone form the last frame
-    context.clearRect(0, 0, canvas.width, canvas.height);
     //reset the translation back to default
     context.setTransform(1, 0, 0, 1, 0, 0)
+
+    //clear the screen out so the old stuff is gone form the last frame
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
     //clamp the camera to the player
     const camX = -player.locX + canvas.width / 2;
@@ -32,12 +33,13 @@ function draw() {
     playerMove();
 
     context.arc(player.locX, player.locY, 10, 0, 2 * Math.PI);
-    //another dot to view player is moving
-    context.arc(200, 200, 10, 0, 2 * Math.PI);
     context.fill();
     context.lineWidth = 3;
     context.strokeStyle = 'rgb(0,255,0)';
     context.stroke();
+
+    drawOrbs();
+
     requestAnimationFrame(draw);
 }
 
@@ -52,8 +54,8 @@ canvas.addEventListener('mousemove', (event) => {
 function playerMove() {
 
     speed = 10;
-    const distX = mousePosition.x - canvas.width/2;
-    const distY = mousePosition.y - canvas.height/2;
+    const distX = mousePosition.x - canvas.width / 2;
+    const distY = mousePosition.y - canvas.height / 2;
     const distAbs = Math.sqrt(distX * distX + distY * distY);
 
     let deltaX = speed * distX / distAbs;
@@ -63,8 +65,21 @@ function playerMove() {
     if (deltaY) player.locY += deltaY;
 
     if (player.locX < 5) player.locX = 5;
-    if (player.locX > wWidth - 5) player.locX = wWidth - 5;
+    if (player.locX > 500 - 5) player.locX = 500 - 5;
     if (player.locY < 5) player.locY = 5;
-    if (player.locY > wHeight - 5) player.locY = wHeight - 5;
+    if (player.locY > 500 - 5) player.locY = 500 - 5;
 }
 
+function drawOrbs() {
+    orbs.forEach(orb => drawOrb(orb));
+}
+
+function drawOrb(orb) {
+    context.beginPath();
+    context.fillStyle = orb.color;
+    context.arc(orb.locX, orb.locY, orb.radius, 0, 2 * Math.PI);
+    context.fill();
+    // context.lineWidth = 1;
+    // context.strokeStyle = 'rgb(0,255,0)';
+    // context.stroke();
+}
