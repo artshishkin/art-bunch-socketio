@@ -2,10 +2,10 @@ const wHeight = $(window).height();
 const wWidth = $(window).width();
 let player = {}
 
-const canvas = $('#the-canvas');
-const context = canvas[0].getContext('2d');
-canvas.width(wWidth);
-canvas.height(wHeight);
+const canvas = document.querySelector("#the-canvas");
+const context = canvas.getContext("2d");
+canvas.width = wWidth;
+canvas.height = wHeight;
 
 $(window).load(() => {
     $('#loginModal').modal('show');
