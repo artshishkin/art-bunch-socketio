@@ -14,12 +14,26 @@ let mousePosition = {
 };
 
 function draw() {
+
+    //clear the screen out so the old stuff is gone form the last frame
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    //reset the translation back to default
+    context.setTransform(1, 0, 0, 1, 0, 0)
+
+    //clamp the camera to the player
+    const camX = -player.locX + canvas.width / 2;
+    const camY = -player.locY + canvas.height / 2;
+    //translate allows us to move the canvass around
+    context.translate(camX, camY)
+
     context.beginPath();
     context.fillStyle = "rgb(255,0,0)";
 
     playerMove();
 
     context.arc(player.locX, player.locY, 10, 0, 2 * Math.PI);
+    //another dot to view player is moving
+    context.arc(200, 200, 10, 0, 2 * Math.PI);
     context.fill();
     context.lineWidth = 3;
     context.strokeStyle = 'rgb(0,255,0)';
@@ -38,8 +52,8 @@ canvas.addEventListener('mousemove', (event) => {
 function playerMove() {
 
     speed = 10;
-    const distX = mousePosition.x - player.locX;
-    const distY = mousePosition.y - player.locY;
+    const distX = mousePosition.x - canvas.width/2;
+    const distY = mousePosition.y - canvas.height/2;
     const distAbs = Math.sqrt(distX * distX + distY * distY);
 
     let deltaX = speed * distX / distAbs;
