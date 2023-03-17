@@ -20,9 +20,24 @@ let players = [];
 
 initGame();
 
+//issue a message to EVERY connected socket 30 fps
+setInterval(() => {
+    io.to('game').emit('tock', {
+        players: players.map(p => p.publicData)
+    })
+}, 33)
+
 io.sockets.on('connect', (socket) => {
 
+    // io.in('game').fetchSockets().then((clients) => {
+    //     console.log('clients in room `game`:', clients.map(soc => soc.id));
+    // });
+
     socket.on('init', (data) => {
+
+        //add the user to the `game` room
+        socket.join('game');
+
         const privateData = new PrivateData(settings);
         const publicData = new PublicData(data.playerName, settings);
         const player = new Player(socket.id, privateData, publicData);

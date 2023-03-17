@@ -16,3 +16,8 @@ socket.on('connect', () => {
 socket.on('initReturn', (data) => {
     orbs = data.orbs;
 })
+
+socket.on('tock', (data) => {
+    console.log(data.players);
+})
+
