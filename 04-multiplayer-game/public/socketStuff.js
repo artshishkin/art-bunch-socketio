@@ -19,17 +19,14 @@ socket.on('initReturn', (data) => {
         socket.emit('tick', {
                 xVector: player.xVector,
                 yVector: player.yVector
-            },
-            (viewX, viewY) => {
-                player.locX = viewX;
-                player.locY = viewY;
             });
     }, 33);
 })
 
 socket.on('tock', (data) => {
-    // console.log(data.players);
     players = data.players;
+    player.locX = data.playerX;
+    player.locY = data.playerY;
     // player = players.find(p => p.socketId === socket.id);
 })
 

@@ -20,16 +20,6 @@ let players = [];
 
 initGame();
 
-//issue a message to EVERY connected socket 30 fps
-setInterval(() => {
-
-    players.forEach(p => p.updatePosition(settings));
-
-    io.to('game').emit('tock', {
-        players: players.map(p => p.publicData)
-    })
-}, 33)
-
 io.sockets.on('connect', (socket) => {
 
     // io.in('game').fetchSockets().then((clients) => {
@@ -48,18 +38,27 @@ io.sockets.on('connect', (socket) => {
         player = new Player(socket.id, privateData, publicData);
         players.push(player);
 
+        //issue a message to EVERY connected socket 30 fps
+        setInterval(() => {
+
+            player.updatePosition(settings);
+
+            socket.emit('tock', {
+                players: players.map(p => p.publicData),
+                playerX: player.publicData.locX,
+                playerY: player.publicData.locY
+            })
+        }, 33)
+
         socket.emit('initReturn', {
             orbs
         })
     })
 
-    socket.on('tick', (data, centerView) => {
+    socket.on('tick', (data) => {
         if (player.privateData) {
             player.privateData.xVector = data.xVector;
             player.privateData.yVector = data.yVector;
-        }
-        if (player.publicData) {
-            centerView(player.publicData.locX, player.publicData.locY);
         }
     });
 
