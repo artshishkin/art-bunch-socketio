@@ -53,10 +53,13 @@ io.sockets.on('connect', (socket) => {
         })
     })
 
-    socket.on('tick', (data) => {
+    socket.on('tick', (data, centerView) => {
         if (player.privateData) {
             player.privateData.xVector = data.xVector;
             player.privateData.yVector = data.yVector;
+        }
+        if (player.publicData) {
+            centerView(player.publicData.locX, player.publicData.locY);
         }
     });
 
