@@ -22,6 +22,9 @@ initGame();
 
 //issue a message to EVERY connected socket 30 fps
 setInterval(() => {
+
+    players.forEach(p => p.updatePosition(settings));
+
     io.to('game').emit('tock', {
         players: players.map(p => p.publicData)
     })
@@ -33,6 +36,8 @@ io.sockets.on('connect', (socket) => {
     //     console.log('clients in room `game`:', clients.map(soc => soc.id));
     // });
 
+    let player = {};
+
     socket.on('init', (data) => {
 
         //add the user to the `game` room
@@ -40,13 +45,20 @@ io.sockets.on('connect', (socket) => {
 
         const privateData = new PrivateData(settings);
         const publicData = new PublicData(data.playerName, settings);
-        const player = new Player(socket.id, privateData, publicData);
+        player = new Player(socket.id, privateData, publicData);
         players.push(player);
 
         socket.emit('initReturn', {
             orbs
         })
     })
+
+    socket.on('tick', (data) => {
+        if (player.privateData) {
+            player.privateData.xVector = data.xVector;
+            player.privateData.yVector = data.yVector;
+        }
+    });
 
     socket.on('disconnect', () => {
         players = players.filter(pl => pl.socketId !== socket.id);
