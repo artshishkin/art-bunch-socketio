@@ -22,13 +22,15 @@ initGame();
 
 io.sockets.on('connect', (socket) => {
 
-    const privateData = new PrivateData(settings);
-    const publicData = new PublicData('Art', settings);
-    const player = new Player(socket.id, privateData, publicData);
-    players.push(player);
+    socket.on('init', (data) => {
+        const privateData = new PrivateData(settings);
+        const publicData = new PublicData(data.playerName, settings);
+        const player = new Player(socket.id, privateData, publicData);
+        players.push(player);
 
-    socket.emit('init', {
-        orbs
+        socket.emit('initReturn', {
+            orbs
+        })
     })
 
     socket.on('disconnect', () => {
