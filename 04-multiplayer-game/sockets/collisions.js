@@ -44,22 +44,24 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
     });
 }
 
-function checkForPlayerCollisions(pData, pConfig, players) {
+function checkForPlayerCollisions(curPlayer, players) {
     return new Promise((resolve, reject) => {
-        //PLAYER COLLISIONS	
-        players.forEach((curPlayer, i) => {
-            if (curPlayer.uid != pData.uid) {
-                // console.log(curPlayer.uid,pData.uid)
-                let pLocx = curPlayer.locX
-                let pLocy = curPlayer.locY
-                let pR = curPlayer.radius
+        //PLAYER COLLISIONS
+        const pData = curPlayer.publicData;
+        const pConfig = curPlayer.privateData;
+
+        players.forEach((player, i) => {
+            if (player.socketId !== curPlayer.socketId) {
+                let pLocx = player.publicData.locX
+                let pLocy = player.publicData.locY
+                let pR = player.publicData.radius
                 // AABB Test - Axis-aligned bounding boxes
                 if (pData.locX + pData.radius + pR > pLocx
                     && pData.locX < pLocx + pData.radius + pR
                     && pData.locY + pData.radius + pR > pLocy
                     && pData.locY < pLocy + pData.radius + pR) {
                     // Pythagoras test
-                    distance = Math.sqrt(
+                    const distance = Math.sqrt(
                         ((pData.locX - pLocx) * (pData.locX - pLocx)) +
                         ((pData.locY - pLocy) * (pData.locY - pLocy))
                     );
@@ -67,23 +69,24 @@ function checkForPlayerCollisions(pData, pConfig, players) {
                         //COLLISION!!
                         if (pData.radius > pR) {
                             // ENEMY DEATH
-                            let collisionData = updateScores(pData, curPlayer);
+                            let collisionData = updateScores(pData, player.publicData);
                             if (pConfig.zoom > 1) {
                                 pConfig.zoom -= (pR * 0.25) * .001;
                             }
                             players.splice(i, 1);
                             resolve(collisionData);
 
-                        } else if (pData.radius < pR) {
-                            let collisionData = updateScores(curPlayer, pData);
-                            players.forEach((p, i) => {
-                                console.log(players[i].name, i)
-                                if (pData.uid == p.uid) {
-                                    players.splice(i, 1);
-                                }
-                            });
-                            resolve(collisionData);
                         }
+                        // else if (pData.radius < pR) {
+                        //     let collisionData = updateScores(player.publicData, pData);
+                        //     players.forEach((p, i) => {
+                        //         console.log(players[i].name, i)
+                        //         if (curPlayer.socketId === p.socketId) {
+                        //             // players.splice(i, 1);
+                        //         }
+                        //     });
+                        //     resolve(collisionData);
+                        // }
                     }
                 }
             }
