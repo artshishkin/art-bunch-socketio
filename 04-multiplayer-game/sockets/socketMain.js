@@ -9,13 +9,13 @@ const Player = require('./classes/Player')
 const Orb = require('./classes/Orb');
 let orbs = [];
 let settings = {
-    defaultOrbs: 500,
+    defaultOrbs: 5000,
     defaultSpeed: 6,
     defaultSize: 6,
     // as the player gets bigger  the zoom needs to go out
     defaultZoom: 1.5,
-    worldWidth: 500,
-    worldHeight: 500,
+    worldWidth: 5000,
+    worldHeight: 5000,
 }
 
 let players = [];
@@ -44,6 +44,22 @@ io.sockets.on('connect', (socket) => {
         setInterval(() => {
 
             player.updatePosition(settings);
+
+            const capturedOrb = checkForOrbCollisions(player.publicData, player.privateData, orbs, settings);
+            capturedOrb
+                .then((orbIndex) => {
+                    //then runs if resolve runs! a collision happened
+                    // console.log('Orb collision')
+                    //emit to all sockets the orb to replace
+                    io.sockets.emit('orbSwitch', {
+                        orbIndex: orbIndex,
+                        newOrb: orbs[orbIndex]
+                    })
+                })
+                .catch(() => {
+                    //catch runs if reject runs! no collision
+                    // console.log('No collision')
+                });
 
             socket.emit('tock', {
                 players: players.map(p => p.publicData),
