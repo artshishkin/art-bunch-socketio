@@ -35,3 +35,12 @@ socket.on('orbSwitch', (data) => {
     const newOrb = data.newOrb;
     orbs.splice(orbIndex, 1, newOrb);
 })
+
+socket.on('updateLeaderBoard', (leaders) => {
+    const $leaderboardPlayer = $('.leader-board');
+    $leaderboardPlayer.empty();
+
+    leaders.forEach(p => $leaderboardPlayer
+        .append(`<li class = "leaderboard-player">${p.name} - ${p.score}</li>`)
+    );
+})

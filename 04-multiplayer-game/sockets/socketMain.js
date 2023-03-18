@@ -55,6 +55,7 @@ io.sockets.on('connect', (socket) => {
                         orbIndex: orbIndex,
                         newOrb: orbs[orbIndex]
                     })
+                    io.emit('updateLeaderBoard', getLeaderBoard());
                 })
                 .catch(() => {
                     //catch runs if reject runs! no collision
@@ -64,7 +65,8 @@ io.sockets.on('connect', (socket) => {
             const playerDeath = checkForPlayerCollisions(player, players);
             playerDeath
                 .then((data) => {
-                    console.log('Player collision', data);
+                    // console.log('Player collision', data);
+                    io.emit('updateLeaderBoard', getLeaderBoard());
                 })
                 .catch(() => {
                     // console.log("no player Collision")
@@ -93,6 +95,18 @@ io.sockets.on('connect', (socket) => {
         players = players.filter(pl => pl.socketId !== socket.id);
     })
 })
+
+function getLeaderBoard() {
+    const sorted = [...players];
+    sorted.sort((a, b) => b.publicData.score - a.publicData.score);
+    return sorted.slice(0, 10)
+        .map(p => {
+            return {
+                name: p.publicData.name,
+                score: p.publicData.score
+            }
+        });
+}
 
 //Run at the beginning of a new Game
 function initGame() {
