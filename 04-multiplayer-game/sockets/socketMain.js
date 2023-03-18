@@ -1,5 +1,7 @@
 //Where all our main socket stuff will go
 const io = require('../servers').io;
+const checkForOrbCollisions = require('./collisions').checkForOrbCollisions
+const checkForPlayerCollisions = require('./collisions').checkForPlayerCollisions
 
 const PrivateData = require('./classes/PrivateData')
 const PublicData = require('./classes/PublicData')
