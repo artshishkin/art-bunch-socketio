@@ -76,7 +76,8 @@ io.sockets.on('connect', (socket) => {
             socket.emit('tock', {
                 players: players.map(p => p.publicData),
                 playerX: player.publicData.locX,
-                playerY: player.publicData.locY
+                playerY: player.publicData.locY,
+                player: player,
             })
         }, 33)
 

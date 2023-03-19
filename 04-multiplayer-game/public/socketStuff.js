@@ -27,7 +27,9 @@ socket.on('tock', (data) => {
     players = data.players;
     player.locX = data.playerX;
     player.locY = data.playerY;
+    player.score = data.player.publicData.score;
     // player = players.find(p => p.socketId === socket.id);
+    $('.player-score').text(player.score);
 })
 
 socket.on('orbSwitch', (data) => {
