@@ -69,7 +69,7 @@ function checkForPlayerCollisions(curPlayer, players) {
                         //COLLISION!!
                         if (pData.radius > pR) {
                             // ENEMY DEATH
-                            let collisionData = updateScores(pData, player.publicData);
+                            let collisionData = updateScores(pData, player.publicData, player.socketId);
                             if (pConfig.zoom > 1) {
                                 pConfig.zoom -= (pR * 0.25) * .001;
                             }
@@ -95,13 +95,14 @@ function checkForPlayerCollisions(curPlayer, players) {
     });
 }
 
-function updateScores(killer, killed) {
+function updateScores(killer, killed, killedId) {
     killer.score += (killed.score + 10);
     killer.playersAbsorbed += 1;
     killed.alive = false;
     killer.radius += (killed.radius * 0.25)
     return {
         died: killed,
+        diedId: killedId,
         killedBy: killer,
     }
 }

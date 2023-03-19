@@ -46,7 +46,11 @@ socket.on('updateLeaderBoard', (leaders) => {
 })
 
 socket.on('playerDeath', (data) => {
-    console.log(data);
+    // console.log(data);
+    if (data.diedId === socket.id) {
+        $('.player-name').text(player.name);
+        $('#spawnModal').modal('show');
+    }
     $('#game-message')
         .html(`${data.died.name} obsorbed by ${data.killedBy.name}`)
         .css({
