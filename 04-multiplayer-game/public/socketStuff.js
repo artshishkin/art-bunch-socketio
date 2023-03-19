@@ -44,3 +44,15 @@ socket.on('updateLeaderBoard', (leaders) => {
         .append(`<li class = "leaderboard-player">${p.name} - ${p.score}</li>`)
     );
 })
+
+socket.on('playerDeath', (data) => {
+    console.log(data);
+    $('#game-message')
+        .html(`${data.died.name} obsorbed by ${data.killedBy.name}`)
+        .css({
+            "background-color": "#00e6e6",
+            "opacity": 1
+        })
+        .show()
+        .fadeOut(5000);
+})

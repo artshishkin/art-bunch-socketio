@@ -67,6 +67,7 @@ io.sockets.on('connect', (socket) => {
                 .then((data) => {
                     // console.log('Player collision', data);
                     io.emit('updateLeaderBoard', getLeaderBoard());
+                    io.emit('playerDeath', data);
                 })
                 .catch(() => {
                     // console.log("no player Collision")
