@@ -93,6 +93,7 @@ io.sockets.on('connect', (socket) => {
 
     socket.on('disconnect', () => {
         players = players.filter(pl => pl.socketId !== socket.id);
+        io.emit('updateLeaderBoard', getLeaderBoard());
     })
 })
 
