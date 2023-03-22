@@ -6,26 +6,21 @@
 
 const os = require('os');
 
-const pData = getMachineData()
+setInterval(async () => {
 
-console.log(pData)
-let prevCpuLoad = {};
-setInterval(() => {
+    const pData = await getAllData();
+    console.log(pData)
 
-    const cpuLoad = cpuAverage();
-
-    if (prevCpuLoad.totalMs) {
-        const deltaLoad = {
-            idleDelta: cpuLoad.idleMs - prevCpuLoad.idleMs,
-            totalDelta: cpuLoad.totalMs - prevCpuLoad.totalMs
-        }
-        const cpuLoadParam = 100 - Math.floor(100 * deltaLoad.idleDelta / deltaLoad.totalDelta);
-        console.log(cpuLoadParam);
-    }
-
-    prevCpuLoad = cpuLoad;
 }, 1000)
 
+async function getAllData() {
+    const machineData = getMachineData()
+    const cpuLoad = await calcCpuLoad();
+    return {
+        ...machineData,
+        cpuLoad
+    };
+}
 
 function getMachineData() {
 
@@ -75,4 +70,19 @@ function cpuAverage() {
         idleMs: idleAvgMs,
         totalMs: totalAvgMs
     };
+}
+
+function calcCpuLoad() {
+    return new Promise(((resolve, reject) => {
+        const start = cpuAverage();
+        setTimeout(() => {
+            const end = cpuAverage();
+            const deltaLoad = {
+                idleDelta: end.idleMs - start.idleMs,
+                totalDelta: end.totalMs - start.totalMs
+            }
+            const cpuLoadParam = 100 - Math.floor(100 * deltaLoad.idleDelta / deltaLoad.totalDelta);
+            resolve(cpuLoadParam);
+        }, 100);
+    }));
 }
