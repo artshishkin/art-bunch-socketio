@@ -15,3 +15,9 @@
 - `npm install socket.io-client`
 - `npm install farmhash`
 
+---
+#### React Client module 
+
+- `npm install create-react-app -g` - globally
+- `npx create-react-app reactclient`
+
