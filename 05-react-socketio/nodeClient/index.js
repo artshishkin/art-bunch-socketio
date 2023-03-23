@@ -14,6 +14,10 @@ socket.on('connect', () => {
     console.log(`I'm connected to the socketio server with id ${socket.id}`)
     const macA = getMacAddress();
 
+    //client auth with single key-value
+    socket.emit('clientAuth','jdkf8j8n3kme9sdk_nodeClientApiKey');
+
+    //start sending over data on interval
     let perfDataInterval = setInterval(async () => {
         const pData = await getAllData();
         socket.emit('perfData',{
