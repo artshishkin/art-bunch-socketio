@@ -12,14 +12,16 @@ let socket = io(BASE_URL);
 
 socket.on('connect', () => {
     console.log(`I'm connected to the socketio server with id ${socket.id}`)
-})
+    const macA = getMacAddress();
 
-// setInterval(async () => {
-//
-//     const pData = await getAllData();
-//     console.log(pData)
-//
-// }, 1000)
+    let perfDataInterval = setInterval(async () => {
+        const pData = await getAllData();
+        socket.emit('perfData',{
+            macA,
+            pData
+        })
+    }, 1000)
+})
 
 async function getAllData() {
     const machineData = getMachineData()
@@ -93,4 +95,17 @@ function calcCpuLoad() {
             resolve(cpuLoadParam);
         }, 100);
     }));
+}
+
+function getMacAddress() {
+    const interfaces = os.networkInterfaces();
+    for (const interfacesKey in interfaces) {
+        if (interfacesKey.toString().includes("WSL")) continue;
+        const networks = interfaces[interfacesKey];
+        for (const network of networks) {
+            if (!network.internal) {
+                return network.mac;
+            }
+        }
+    }
 }
