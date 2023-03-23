@@ -4,14 +4,22 @@
 // - farmhash
 // - socket.io-client
 
+const BASE_URL = 'http://127.0.0.1:8181';
+
 const os = require('os');
+const io = require('socket.io-client');
+let socket = io(BASE_URL);
 
-setInterval(async () => {
+socket.on('connect', () => {
+    console.log(`I'm connected to the socketio server with id ${socket.id}`)
+})
 
-    const pData = await getAllData();
-    console.log(pData)
-
-}, 1000)
+// setInterval(async () => {
+//
+//     const pData = await getAllData();
+//     console.log(pData)
+//
+// }, 1000)
 
 async function getAllData() {
     const machineData = getMachineData()
