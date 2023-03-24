@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Machine = require('./models/Machine');
 
 const mongoUsername = 'perfUser'
 const mongoPassword = 'perfPassword'
@@ -30,7 +31,7 @@ function socketMain(io, socket) {
     //if it is, add it!
 
     socket.on('perfData', (data) => {
-        // console.log(data);
+        console.log(data);
     })
 }
 
