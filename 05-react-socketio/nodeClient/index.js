@@ -19,6 +19,11 @@ socket.on('connect', () => {
     //client auth with single key-value
     socket.emit('clientAuth', 'jdkf8j8n3kme9sdk_nodeClientApiKey');
 
+    getAllData().then(pData => {
+        pData.macA = macA;
+        socket.emit('initPerfData', pData);
+    });
+
     //start sending over data on interval
     perfDataInterval = setInterval(async () => {
         const pData = await getAllData();

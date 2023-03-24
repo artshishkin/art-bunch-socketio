@@ -10,6 +10,9 @@ mongoose
     .catch(error => console.error('Error connecting to MongoDB:', error));
 
 function socketMain(io, socket) {
+
+    let macA;
+
     console.log(`Socket connected ${socket.id}`)
     // console.log("Someone called me! I'm socketMain")
 
@@ -29,6 +32,10 @@ function socketMain(io, socket) {
 
     //a machine has connected. check to see if it's new.
     //if it is, add it!
+    socket.on('initPerfData', (data) => {
+        // console.log(data);
+        macA = data.macA;
+    })
 
     socket.on('perfData', (data) => {
         console.log(data);
