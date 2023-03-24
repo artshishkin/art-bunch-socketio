@@ -1,3 +1,13 @@
+const mongoose = require('mongoose');
+
+const mongoUsername = 'perfUser'
+const mongoPassword = 'perfPassword'
+
+mongoose
+    .connect(`mongodb://${mongoUsername}:${mongoPassword}@127.0.0.1:27017/perfMon`, {useNewUrlParser: true})
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(error => console.error('Error connecting to MongoDB:', error));
+
 function socketMain(io, socket) {
     console.log(`Socket connected ${socket.id}`)
     // console.log("Someone called me! I'm socketMain")
@@ -16,8 +26,11 @@ function socketMain(io, socket) {
         }
     })
 
+    //a machine has connected. check to see if it's new.
+    //if it is, add it!
+
     socket.on('perfData', (data) => {
-        console.log(data);
+        // console.log(data);
     })
 }
 
