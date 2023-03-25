@@ -23,6 +23,7 @@ function socketMain(io, socket) {
         } else if (key === 'nke8kwje3230mkmsk_uiClientApiKey') {
             //valid UI client
             socket.join('ui');
+            console.log('A React client has joined')
         } else {
             //an invalid client has joined. Goodbye
             console.log('an invalid client has joined. Goodbye');
