@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:8181';
 
 let socket = io.connect(BASE_URL);
 
-console.log(socket);
+// console.log(socket);
 
 socket.emit('clientAuth', 'nke8kwje3230mkmsk_uiClientApiKey');
 
