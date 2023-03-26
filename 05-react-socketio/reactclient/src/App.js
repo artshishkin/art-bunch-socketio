@@ -1,6 +1,7 @@
 import './App.css';
 import {useEffect, useState} from "react";
 import socket from "./utilities/socketConnection";
+import Widget from "./components/Widget";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
     return (
         <div className="App">
             <h1>Sanity check!</h1>
-            <p>{JSON.stringify(perfData)}</p>
+            <Widget data={perfData}/>
         </div>
     );
 }
