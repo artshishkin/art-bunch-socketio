@@ -4,12 +4,24 @@ import Info from "./Info";
 
 function Widget(props) {
 
+    //object destructuring
+    const {macA, osType, freeMem, totalMem, memUsage, uptime, cpuModel, cpuSpeed, cpuLoad, numCores} = props.data;
+
+    const mem = {
+        freeMem,
+        totalMem,
+        memUsage
+    }
+
+    const info = {macA, osType, uptime, cpuModel, cpuSpeed, numCores}
+
     return (
         <div className="Widget">
-            <h2>Widget</h2>
-            <Cpu data={props.data}/>
-            <Mem data={props.data}/>
-            <Info data={props.data}/>
+            <Cpu cpuData={
+                {cpuLoad}
+            }/>
+            <Mem memData={mem}/>
+            <Info infoData={info}/>
         </div>
     );
 }
