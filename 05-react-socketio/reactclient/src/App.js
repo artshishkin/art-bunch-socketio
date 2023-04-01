@@ -2,6 +2,8 @@ import './App.css';
 import {useEffect, useState} from "react";
 import socket from "./utilities/socketConnection";
 import Widget from "./components/Widget";
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.min.js"
 
 function App() {
 

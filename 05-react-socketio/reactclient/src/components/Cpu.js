@@ -1,9 +1,19 @@
+import {useRef} from "react";
+import drawCircle from "../utilities/canvasLoadAnimation";
+
 function Cpu(props) {
 
+    const canvasRef = useRef(null);
+
+    drawCircle(canvasRef.current, props.cpuData.cpuLoad);
+
     return (
-        <div className="Cpu">
-            <h3>Cpu</h3>
-            <p>{JSON.stringify(props.cpuData)}</p>
+        <div className="col-sm-3 cpu">
+            <h3>Cpu Load</h3>
+            <div className="canvas-wrapper">
+                <canvas ref={canvasRef}/>
+                <div className="cpu-text">{props.cpuData.cpuLoad}</div>
+            </div>
         </div>
     );
 }
