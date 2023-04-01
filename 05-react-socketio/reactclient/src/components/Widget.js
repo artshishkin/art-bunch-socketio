@@ -17,7 +17,7 @@ function Widget(props) {
     const info = {macA, osType, uptime, cpuModel, cpuSpeed, numCores}
 
     return (
-        <div className="Widget">
+        <div className="Widget row">
             <Cpu cpuData={
                 {cpuLoad}
             }/>
